@@ -1,0 +1,68 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.2/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": false
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineWidth": 80
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"preset": "recommended",
+			"correctness": {
+				"noUnusedVariables": "error",
+				"noUnusedImports": "error",
+				"useExhaustiveDependencies": "off",
+				"noUnusedFunctionParameters": "error"
+			},
+			"style": {
+				"noUnusedTemplateLiteral": "error"
+			},
+			"a11y": {
+				"noStaticElementInteractions": "off",
+				"useKeyWithClickEvents": "off"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single",
+			"semicolons": "always",
+			"trailingCommas": "all"
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"useSortedProperties": "on",
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							{ "type": false, "source": ["react", "react-dom"] },
+							":BLANK_LINE:",
+							{ "type": false, "source": ":PACKAGE:" },
+							":BLANK_LINE:",
+							{ "type": true, "source": ["**"] },
+							":BLANK_LINE:",
+							{ "type": false, "source": [":ALIAS:"] },
+							":BLANK_LINE:",
+							{ "type": false, "source": ["./**", "../**"] },
+							":BLANK_LINE:",
+							{ "type": false, "source": ["**/*.css", "*.css"] }
+						]
+					}
+				}
+			}
+		}
+	}
+}

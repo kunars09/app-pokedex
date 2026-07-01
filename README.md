@@ -1,56 +1,108 @@
-# Welcome to your Expo app 👋
+# Pokédex App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicación móvil de Pokédex con registro de entrenador, construida con React Native y Expo SDK 56.
 
-## Get started
+## Descripción
 
-1. Install dependencies
+Una Pokédex interactiva que permite:
 
-   ```bash
-   npm install
-   ```
+- Explorar una lista paginada de Pokémon con scroll infinito
+- Ver el detalle de cada Pokémon (stats, tipos, peso, altura)
+- Registrar un perfil de entrenador mediante un formulario wizard multi-paso
+- Persistir datos del entrenador localmente
 
-2. Start the app
+## Stack Tecnológico
 
-   ```bash
-   npx expo start
-   ```
+| Categoría        | Tecnología                       |
+| ---------------- | -------------------------------- |
+| Framework        | Expo SDK 56                      |
+| Lenguaje         | TypeScript 6 (strict)            |
+| Navegación       | expo-router (file-based routing) |
+| Data Fetching    | TanStack React Query             |
+| Estado Global    | Zustand + AsyncStorage           |
+| Formularios      | react-hook-form + yup            |
+| Linter/Formatter | Biome                            |
+| Package Manager  | pnpm                             |
 
-In the output, you'll find options to open the app in a
+## Requisitos Previos
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Node.js >= 24
+- pnpm >= 11
+- iOS Simulator (macOS) o Android Emulator
+- [Expo Go](https://expo.dev/go) (opcional, para dispositivo físico)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Instalación
 
 ```bash
-npm run reset-project
+pnpm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Scripts
 
-### Other setup steps
+| Comando              | Descripción                              |
+| -------------------- | ---------------------------------------- |
+| `pnpm start`         | Inicia el servidor de desarrollo de Expo |
+| `pnpm ios`           | Inicia en iOS Simulator                  |
+| `pnpm android`       | Inicia en Android Emulator               |
+| `pnpm web`           | Inicia en navegador web                  |
+| `pnpm check`         | Ejecuta Biome check con auto-fix         |
+| `pnpm lint`          | Ejecuta Biome format con auto-fix        |
+| `pnpm test`          | Ejecuta tests en modo watch              |
+| `pnpm test:coverage` | Ejecuta tests con reporte de cobertura   |
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Estructura del Proyecto
 
-## Learn more
+```
+src/
+├── api/                        # Capa de datos
+│   ├── interfaces/             # Tipos de respuesta de la API
+│   ├── services/               # Service hooks (usePokemonService)
+│   ├── toolbox/                # Constantes y helpers de API
+│   │   ├── constants/          # Endpoints, límites
+│   │   └── utils/              # Helpers (getImageUrl, getId)
+│   └── query-client.ts         # Configuración de React Query
+├── app/                        # Rutas (file-based routing)
+│   ├── (tabs)/
+│   │   ├── (pokedex)/          # Tab 1: Lista + Detalle
+│   │   └── (trainer)/          # Tab 2: Perfil + Wizard
+│   ├── _layout.tsx             # Root layout (providers)
+│   └── index.tsx               # Redirect inicial
+├── components/                 # Atomic Design (reutilizables)
+│   ├── atoms/                  # Button, Input, Loading
+│   ├── molecules/              # PokemonCard, StatBar, TypeBadge
+│   ├── organisms/              # SplashScreen
+│   └── templates/              # ScreenTemplate
+├── features/                   # Feature-based (no reutilizables)
+│   ├── Pokedex/
+│   │   ├── components/         # PokemonList, PokemonDetailCard
+│   │   └── hooks/              # usePokemonList, usePokemonDetail
+│   └── Trainer/
+│       ├── components/         # TrainerCard
+│       ├── constants/          # Opciones de formulario
+│       └── utils/              # Schemas de validación
+├── store/                      # Zustand stores
+│   └── trainerStore.ts
+├── styles/                     # Design tokens
+│   ├── colors.ts
+│   ├── spacing.ts
+│   └── typography.ts
+└── toolbox/                    # Tipos y enums globales
+    ├── enums/
+    └── interfaces/
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## API
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Consume la [PokéAPI](https://pokeapi.co/api/v2/):
 
-## Join the community
+- `GET /pokemon?limit=20&offset={n}` — Lista paginada
+- `GET /pokemon/{id}` — Detalle de un Pokémon
 
-Join our community of developers creating universal apps.
+## Testing
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Unit tests con **Vitest** + mock de React Native primitives.
+
+```bash
+pnpm test:run        # ejecución única
+pnpm test:coverage   # con reporte de cobertura
+```

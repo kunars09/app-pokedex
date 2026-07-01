@@ -45,3 +45,9 @@ example
 # env
 .env
 
+# test
+.coverage
+
+# agents
+
+.github/agents
